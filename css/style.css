@@ -8,6 +8,7 @@
   --bg-main: #2f303a;
   --bg-team: #f5f4fa;
   --icon-color: #afb1b8;
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -93,10 +94,34 @@ body {
   padding-bottom: 32px;
 
   color: var(--title-text-color);
+  position: relative;
 }
 
 .site-nav .current {
   color: var(--accent-color);
+}
+
+.site-nav .link::after,
+.site-nav .current::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  display: block;
+  width: 100%;
+  background-color: var(--accent-color);
+  height: 4px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 250ms var(--timing-function);
+}
+
+.site-nav .link:hover::after,
+.site-nav .link:focus::after,
+.site-nav .current::after {
+  opacity: 1;
 }
 
 .address {
@@ -186,6 +211,54 @@ body {
   color: var(--accent-color);
   background-color: var(--white);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  min-width: 530px;
+  min-height: 580px;
+  background-color: var(--white);
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.close {
+  position: absolute;
+  top: 1.4%;
+  right: 1.5%;
+  width: 30px;
+  height: 30px;
+  background-image: url(../images/icon/close.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.icon-close {
+  fill: #000000;
 }
 
 .section {
@@ -535,12 +608,16 @@ img {
   color: var(--white);
   background-color: rgba(33, 150, 243, 0.9);
 
+  overflow: hidden;
   opacity: 0;
+  transform: translateY(100%);
+  transition: transform 250ms var(--timing-function);
 }
 
 .product-list .item-link:hover .description,
 .product-list .item-link:focus .description {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .product-list .subtitle {
